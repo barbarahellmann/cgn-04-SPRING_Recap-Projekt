@@ -15,7 +15,6 @@ public class KanbanController {
 
     private final TodoService service;
 
-
     @GetMapping
     public List<Todo> getAllTodos() {
         return service.getAllTodos();
@@ -32,12 +31,13 @@ public class KanbanController {
         service.createNewTodo(newTodo);
     }
 
-
-    @PutMapping("/{id}")
-    public Todo putTodoById(@PathVariable String id) {
-        return service.putTodoById(id);
+// klappt nicht, keine Ahnung warum. Inhalt wird nicht aktualisiert.
+    @PutMapping()
+    public Todo updateTodo(@RequestBody Todo updatableTodo) {
+        return service.updateTodo(updatableTodo);
     }
 
+    // klappt nicht
     @DeleteMapping("/remove/{id}")
     public String deleteTodo(@PathVariable String id) {
         return "Todo with ID " + id + " removed successfully.";

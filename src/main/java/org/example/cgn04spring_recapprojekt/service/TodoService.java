@@ -46,12 +46,13 @@ public class TodoService {
         repo.save(temp);
     }
 
-    public Todo putTodoById(String id) {
-        Todo temp = repo.findById(id).orElseThrow(() ->  new IllegalArgumentException("Todo not found for id: " + id));
-        return repo.save(temp);
+
+    // siehe fehler im Controller
+    public Todo updateTodo(Todo updatableTodo) {
+        return repo.save(updatableTodo);
     }
 
-
+    // siehe fehler im Controller
     public void deleteTodo(String id) {
 
     }
