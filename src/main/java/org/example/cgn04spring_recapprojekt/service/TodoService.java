@@ -28,18 +28,31 @@ public class TodoService {
         return repo.findAll();
     }
 
-//    public Todo gettodoById(String id) {
-//        Todo temp = repo.findById(id).orElseThrow();
-//        return new Todo(
-//                temp.id());
-//
-//    }
-//
+    public Todo getTodoById(String id) {
+        Todo temp = repo.findById(id).orElseThrow();
+        return new Todo(
+                temp.id(),
+                temp.description(),
+                temp.status());
+
+    }
+
     public void createNewTodo(Todo newTodo) {
         Todo temp = new Todo(
-                UUID.randomUUID().toString(),
+                IdService.generatedId(),
+//                UUID.randomUUID().toString(),
                 newTodo.description(),
                 newTodo.status());
         repo.save(temp);
+    }
+
+    public Todo putTodoById(String id) {
+        Todo temp = repo.findById(id).orElseThrow(() ->  new IllegalArgumentException("Todo not found for id: " + id));
+        return repo.save(temp);
+    }
+
+
+    public void deleteTodo(String id) {
+
     }
 }

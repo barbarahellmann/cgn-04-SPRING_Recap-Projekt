@@ -21,17 +21,25 @@ public class KanbanController {
         return service.getAllTodos();
     }
 
-    //    @GetMapping
-//    public Todo getTodoById(@PathVariable String id)
-//        return service.todoById();
-//
+
+    @GetMapping("/{id}")
+    public Todo getTodoById(@PathVariable String id) {
+        return service.getTodoById(id);
+    }
+
     @PostMapping
     public void createNewTodo(@RequestBody Todo newTodo) {
         service.createNewTodo(newTodo);
+    }
 
 
-        // putTodo
-        // deleteTodo
+    @PutMapping("/{id}")
+    public Todo putTodoById(@PathVariable String id) {
+        return service.putTodoById(id);
+    }
 
+    @DeleteMapping("/remove/{id}")
+    public String deleteTodo(@PathVariable String id) {
+        return "Todo with ID " + id + " removed successfully.";
     }
 }
