@@ -7,6 +7,7 @@ import org.example.cgn04spring_recapprojekt.model.Todo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/todo")
@@ -31,15 +32,20 @@ public class KanbanController {
         service.createNewTodo(newTodo);
     }
 
-// klappt nicht, keine Ahnung warum. Inhalt wird nicht aktualisiert.
-    @PutMapping()
-    public Todo updateTodo(@RequestBody Todo updatableTodo) {
-        return service.updateTodo(updatableTodo);
+
+    // klappt. Yay. Im Postman getestet
+    @DeleteMapping("/{id}")
+    public String deleteTodo(@PathVariable String id) {
+        try {
+            service.deleteTodo(id).orElseThrow();
+            return "Todo not deleted";
+        } catch (NoSuchElementException e) {
+            return "Todo successfully deleted";
+        }
     }
 
-    // klappt nicht
-    @DeleteMapping("/remove/{id}")
-    public String deleteTodo(@PathVariable String id) {
-        return "Todo with ID " + id + " removed successfully.";
+    @PutMapping("/{id}")
+    public Todo updateTodo(@RequestBody Todo requiredTodo) {
+        return service.updateTodo(requiredTodo);
     }
 }
