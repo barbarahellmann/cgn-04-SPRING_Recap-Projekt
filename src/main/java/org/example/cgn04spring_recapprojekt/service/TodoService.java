@@ -1,19 +1,12 @@
 package org.example.cgn04spring_recapprojekt.service;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.RequiredArgsConstructor;
 import org.example.cgn04spring_recapprojekt.model.Todo;
 import org.example.cgn04spring_recapprojekt.repository.TodoRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -31,9 +24,9 @@ public class TodoService {
     public Todo getTodoById(String id) {
         Todo temp = repo.findById(id).orElseThrow();
         return new Todo(
-                temp.id(),
-                temp.description(),
-                temp.status());
+                temp.getId(),
+                temp.getDescription(),
+                temp.getStatus());
 
     }
 
@@ -41,19 +34,20 @@ public class TodoService {
         Todo temp = new Todo(
                 IdService.generatedId(),
 //                UUID.randomUUID().toString(),
-                newTodo.description(),
-                newTodo.status());
+                newTodo.getDescription(),
+                newTodo.getStatus());
         repo.save(temp);
     }
 
 
-    // siehe fehler im Controller
-    public Todo updateTodo(Todo updatableTodo) {
-        return repo.save(updatableTodo);
+    public Optional<Todo> deleteTodo(String id) {
+        repo.delete(repo.findById(id).orElseThrow());
+        return repo.findById(id);
     }
 
-    // siehe fehler im Controller
-    public void deleteTodo(String id) {
-
+    public Todo updateTodo(Todo requiredTodo) {
+        Todo temp2 = repo.findById(requiredTodo.getId()).orElseThrow();
+        repo.save(temp2.withStatus(requiredTodo.getStatus()).withDescription(requiredTodo.getDescription()));
+        return repo.findById(temp2.getId()).orElseThrow();
     }
 }
