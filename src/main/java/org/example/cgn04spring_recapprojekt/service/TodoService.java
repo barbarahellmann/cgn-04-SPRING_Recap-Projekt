@@ -16,7 +16,6 @@ public class TodoService {
 
     private final TodoRepository repo;
 
-
     public List<Todo> getAllTodos(){
         return repo.findAll();
     }
@@ -38,7 +37,6 @@ public class TodoService {
                 newTodo.getStatus());
         repo.save(temp);
     }
-
 
     public Optional<Todo> deleteTodo(String id) {
         repo.delete(repo.findById(id).orElseThrow());
